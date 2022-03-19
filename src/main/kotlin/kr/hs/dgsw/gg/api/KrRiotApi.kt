@@ -4,7 +4,7 @@ import kr.hs.dgsw.gg.data.riot_response.SummonerResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface RiotApi {
+interface KrRiotApi {
     @GET("/lol/summoner/v4/summoners/by-name/{summonerName}")
     suspend fun getSummonerByName(@Path("summonerName") summonerName: String): SummonerResponse
 }
