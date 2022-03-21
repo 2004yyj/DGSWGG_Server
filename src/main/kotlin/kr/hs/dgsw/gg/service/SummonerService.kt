@@ -21,12 +21,12 @@ class SummonerService(
     private val rankRepository: RankRepository
 ) {
     fun getSummonerByName(summonerName: String): BaseDTO<SummonerDTO> {
-        val summonerOpt = summonerRepository.getSummonerByName(summonerName)
-        val summonerDTO =
-            if (summonerOpt.isEmpty)
-                getSummonerInfoFromRiotApi(summonerName).toDTO()
-            else
-                summonerOpt.get().toDTO()
+        val summonerDTO = summonerRepository.getSummonerByName(summonerName).orElseThrow {
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "404 NOT FOUND"
+            )
+        }.toDTO()
 
         return BaseDTO(HttpStatus.OK.value(), "성공", summonerDTO)
     }
