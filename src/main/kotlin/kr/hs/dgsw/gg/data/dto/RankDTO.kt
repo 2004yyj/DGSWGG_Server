@@ -4,6 +4,7 @@ import javax.persistence.Column
 
 class RankDTO(
     var id: Int,
+    var summonerId: String,
     var summonerName: String,
     var tier: String,
     var rank: String,
