@@ -21,12 +21,21 @@ class SummonerService(
     private val rankRepository: RankRepository
 ) {
     fun getSummonerByName(summonerName: String): BaseDTO<SummonerDTO> {
+<<<<<<< Updated upstream
         val summonerOpt = summonerRepository.getSummonerByName(summonerName)
         val summonerDTO =
             if (summonerOpt.isEmpty)
                 getSummonerInfoFromRiotApi(summonerName).toDTO()
             else
                 summonerOpt.get().toDTO()
+=======
+        val summonerDTO = summonerRepository.getSummonerBySummonerName(summonerName).orElseThrow {
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "404 NOT FOUND"
+            )
+        }.toDTO()
+>>>>>>> Stashed changes
 
         return BaseDTO(HttpStatus.OK.value(), "성공", summonerDTO)
     }
