@@ -1,4 +1,9 @@
 package kr.hs.dgsw.gg.repository
 
-interface SummonerRepository {
+import kr.hs.dgsw.gg.data.vo.SummonerVO
+import org.springframework.data.jpa.repository.JpaRepository
+import java.util.Optional
+
+interface SummonerRepository: JpaRepository<SummonerVO, String> {
+    fun getSummonerByName(name: String): Optional<SummonerVO>
 }
