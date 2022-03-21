@@ -12,8 +12,6 @@ class RankVO {
     var id: Int = 0
     @Column(name = "summoner_id")
     var summonerId: String = ""
-    @Column(name = "summoner_name")
-    var summonerName: String = ""
     @Column(name = "tier")
     var tier: String = ""
     @Column(name = "ranking")
@@ -32,7 +30,6 @@ fun RankVO.toDTO(): RankDTO {
     return RankDTO(
         id,
         summonerId,
-        summonerName,
         tier,
         rank,
         queueType,
