@@ -15,15 +15,15 @@ class SummonerResponse(
 ) {
     fun toVO(name: String, grade: Int, klass: Int, number: Int): SummonerVO {
         return SummonerVO().apply {
+            this.name = name
+            this.grade = grade
+            this.klass = klass
+            this.number = number
             id = this@SummonerResponse.id
             summonerName = this@SummonerResponse.name
             summonerLevel = this@SummonerResponse.summonerLevel
             profileIconId = this@SummonerResponse.profileIconId
             playerUUID = this@SummonerResponse.puuid
-            this.name = name
-            this.grade = grade
-            this.klass = klass
-            this.number = number
         }
     }
 }
