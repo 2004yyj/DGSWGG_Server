@@ -3,7 +3,7 @@ package kr.hs.dgsw.gg.data.vo
 import javax.persistence.*
 
 @Table
-@Entity(name = "rank")
+@Entity(name = "ranks")
 class RankVO {
     @Id
     @Column(name = "id")
@@ -15,7 +15,7 @@ class RankVO {
     var summonerName: String = ""
     @Column(name = "tier")
     var tier: String = ""
-    @Column(name = "rank")
+    @Column(name = "ranking")
     var rank: String = ""
     @Column(name = "queue_type")
     var queueType: String = ""
