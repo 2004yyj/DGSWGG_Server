@@ -13,19 +13,17 @@ class SummonerResponse(
     val puuid: String, // player uuid
     val summonerLevel: Long
 ) {
-    fun toDTO(): SummonerDTO {
-        return SummonerDTO(
-            id, name, summonerLevel, profileIconId, puuid, null, null
-        )
-    }
-
-    fun toVO(): SummonerVO {
+    fun toVO(name: String, grade: Int, klass: Int, number: Int): SummonerVO {
         return SummonerVO().apply {
             id = this@SummonerResponse.id
-            name = this@SummonerResponse.name
+            summonerName = this@SummonerResponse.name
             summonerLevel = this@SummonerResponse.summonerLevel
             profileIconId = this@SummonerResponse.profileIconId
             playerUUID = this@SummonerResponse.puuid
+            this.name = name
+            this.grade = grade
+            this.klass = klass
+            this.number = number
         }
     }
 }
