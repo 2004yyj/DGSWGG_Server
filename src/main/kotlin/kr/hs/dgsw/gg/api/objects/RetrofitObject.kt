@@ -1,5 +1,6 @@
 package kr.hs.dgsw.gg.api.objects
 
+import kr.hs.dgsw.gg.api.AsiaRiotApi
 import kr.hs.dgsw.gg.api.KrRiotApi
 import kr.hs.dgsw.gg.api.apikey.ApiKeyInterceptor
 import kr.hs.dgsw.gg.api.objects.Contracts.ASIA_BASE_URL
@@ -26,4 +27,5 @@ object RetrofitObject {
         .build()
 
     val krRiotApi = krRetrofit.create(KrRiotApi::class.java)
+    val asiaRiotApi = asiaRetrofit.create(AsiaRiotApi::class.java)
 }

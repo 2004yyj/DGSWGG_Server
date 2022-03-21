@@ -6,4 +6,5 @@ import java.util.Optional
 
 interface SummonerRepository: JpaRepository<SummonerVO, String> {
     fun getSummonerBySummonerName(summonerName: String): Optional<SummonerVO>
+    fun getSummonerById(summonerId: String): Optional<SummonerVO>
 }
