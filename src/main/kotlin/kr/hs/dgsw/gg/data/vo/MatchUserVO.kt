@@ -1,21 +1,17 @@
 package kr.hs.dgsw.gg.data.vo
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "matches_user")
 class MatchUserVO {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    val id: Int = 0
+    var id: Int = 0
     @ManyToOne
     @JoinColumn(name = "match_id", referencedColumnName = "id")
-    val matchVO: MatchVO = MatchVO()
+    var matchVO: MatchVO = MatchVO()
     @Column(name = "summoner_id")
-    val summonerId: String = ""
+    var summonerId: String = ""
 }
