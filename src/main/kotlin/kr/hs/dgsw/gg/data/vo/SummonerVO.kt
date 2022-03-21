@@ -40,7 +40,7 @@ class SummonerVO: BaseTimeVO() {
 
 fun SummonerVO.toDTO(): SummonerDTO {
     return SummonerDTO(
-        playerUUID,
+        id,
         name,
         grade,
         klass,

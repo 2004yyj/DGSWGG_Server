@@ -1,7 +1,7 @@
 package kr.hs.dgsw.gg.data.dto
 
 class SummonerDTO(
-    val playerUUID: String,
+    val id: String,
     val name: String,
     val grade: Int,
     val klass: Int,
