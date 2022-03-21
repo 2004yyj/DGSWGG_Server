@@ -1,5 +1,6 @@
 package kr.hs.dgsw.gg.api.objects
 
+import kr.hs.dgsw.gg.api.KrRiotApi
 import kr.hs.dgsw.gg.api.apikey.ApiKeyInterceptor
 import kr.hs.dgsw.gg.api.objects.Contracts.ASIA_BASE_URL
 import kr.hs.dgsw.gg.api.objects.Contracts.KR_BASE_URL
@@ -23,4 +24,6 @@ object RetrofitObject {
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
+
+    val krRiotApi = krRetrofit.create(KrRiotApi::class.java)
 }

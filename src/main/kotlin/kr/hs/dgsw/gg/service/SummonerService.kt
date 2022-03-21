@@ -3,6 +3,7 @@ package kr.hs.dgsw.gg.service
 import kotlinx.coroutines.runBlocking
 import kr.hs.dgsw.gg.api.KrRiotApi
 import kr.hs.dgsw.gg.api.objects.RetrofitObject.krRetrofit
+import kr.hs.dgsw.gg.api.objects.RetrofitObject.krRiotApi
 import kr.hs.dgsw.gg.data.base.BaseDTO
 import kr.hs.dgsw.gg.data.dto.SummonerDTO
 import kr.hs.dgsw.gg.data.riot_response.SummonerResponse
@@ -17,8 +18,6 @@ import retrofit2.HttpException
 class SummonerService(
     private val summonerRepository: SummonerRepository
 ) {
-    private val krRiotApi = krRetrofit.create(KrRiotApi::class.java)
-
     fun getSummonerByName(summonerName: String): BaseDTO<SummonerDTO> {
         val summonerOpt = summonerRepository.getSummonerByName(summonerName)
         val summonerDTO =
