@@ -13,6 +13,9 @@ class SummonerResponse(
     val summonerLevel: Long
 ) {
     fun toDTO(): SummonerDTO {
-        return SummonerDTO(id, name, summonerLevel, profileIconId, puuid)
+        return SummonerDTO(
+            id, name, summonerLevel, profileIconId, puuid, null, null
+        )
+    }
     }
 }
