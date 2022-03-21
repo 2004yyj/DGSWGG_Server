@@ -1,5 +1,6 @@
 package kr.hs.dgsw.gg.data.vo
 
+import kr.hs.dgsw.gg.data.dto.RankDTO
 import javax.persistence.*
 
 @Table
@@ -25,4 +26,18 @@ class RankVO {
     var wins: Int = 0
     @Column(name = "losses")
     var losses: Int = 0
+}
+
+fun RankVO.toDTO(): RankDTO {
+    return RankDTO(
+        id,
+        summonerId,
+        summonerName,
+        tier,
+        rank,
+        queueType,
+        leaguePoints,
+        wins,
+        losses
+    )
 }

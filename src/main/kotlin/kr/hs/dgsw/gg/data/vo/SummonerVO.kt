@@ -38,6 +38,7 @@ fun SummonerVO.toDTO(): SummonerDTO {
         profileIconId,
         playerUUID,
         createdAt.time,
-        updatedAt.time
+        updatedAt.time,
+        rankList.map { it.toDTO() }
     )
 }
