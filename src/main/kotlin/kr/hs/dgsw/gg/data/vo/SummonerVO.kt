@@ -40,14 +40,13 @@ class SummonerVO: BaseTimeVO() {
 
 fun SummonerVO.toDTO(): SummonerDTO {
     return SummonerDTO(
-        id,
+        playerUUID,
         name,
         grade,
         klass,
         number,
         summonerLevel,
         profileIconId,
-        playerUUID,
         createdAt.time,
         updatedAt.time,
         rankList.map { it.toDTO() }
