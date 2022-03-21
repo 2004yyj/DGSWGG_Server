@@ -40,6 +40,9 @@ fun SummonerVO.toDTO(): SummonerDTO {
     return SummonerDTO(
         id,
         name,
+        grade,
+        klass,
+        number,
         summonerLevel,
         profileIconId,
         playerUUID,
