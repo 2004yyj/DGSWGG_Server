@@ -19,6 +19,12 @@ class SummonerVO: BaseTimeVO() {
     var id: String = ""
     @Column(name = "name")
     var name: String = ""
+    @Column(name = "grade")
+    var grade: Int = 0
+    @Column(name = "class")
+    var klass: Int = 0
+    @Column(name = "number")
+    var number: Int = 0
     @Column(name = "summoner_level")
     var summonerLevel: Long = 0L
     @Column(name = "profileIconId")
