@@ -7,5 +7,6 @@ class SummonerDTO(
     val profileIconId: Int,
     val playerUUID: String,
     val createdAt: Long?,
-    val updatedAt: Long?
+    val updatedAt: Long?,
+    val rankData: List<RankDTO> = ArrayList()
 )
