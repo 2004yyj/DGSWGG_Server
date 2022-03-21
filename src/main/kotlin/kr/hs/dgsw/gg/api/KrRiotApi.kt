@@ -10,5 +10,5 @@ interface KrRiotApi {
     suspend fun getSummonerByName(@Path("summonerName") summonerName: String): SummonerResponse
 
     @GET("/lol/league/v4/entries/by-summoner/{encryptedSummonerId}")
-    suspend fun getRankBySummonerId(@Path("encryptedSummonerId") encryptedSummonerId: String): RankResponse
+    suspend fun getRankBySummonerId(@Path("encryptedSummonerId") encryptedSummonerId: String): List<RankResponse>
 }
