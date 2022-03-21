@@ -12,7 +12,7 @@ class SummonerResponse(
     val puuid: String, // player uuid
     val summonerLevel: Long
 ) {
-    fun toDTO(matchDTO: List<MatchDTO>): SummonerDTO {
-        return SummonerDTO(name, summonerLevel, profileIconId, matchDTO)
+    fun toDTO(): SummonerDTO {
+        return SummonerDTO(name, summonerLevel, profileIconId, puuid)
     }
 }
