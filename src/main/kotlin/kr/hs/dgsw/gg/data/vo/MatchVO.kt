@@ -8,7 +8,7 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "match")
+@Table(name = "matches")
 class MatchVO {
     @Id
     @Column(name = "id")

@@ -14,7 +14,7 @@ class MatchUserVO {
     @Column(name = "id")
     val id: Int = 0
     @ManyToOne
-    @JoinColumn(name = "matches_id", referencedColumnName = "id")
+    @JoinColumn(name = "match_id", referencedColumnName = "id")
     val matchVO: MatchVO = MatchVO()
     @Column(name = "summoner_id")
     val summonerId: String = ""
