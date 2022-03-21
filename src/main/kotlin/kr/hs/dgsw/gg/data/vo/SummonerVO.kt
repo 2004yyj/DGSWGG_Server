@@ -17,6 +17,8 @@ class SummonerVO: BaseTimeVO() {
     @Id
     @Column(name = "id")
     var id: String = ""
+    @Column(name = "summoner_name")
+    var summonerName: String = ""
     @Column(name = "name")
     var name: String = ""
     @Column(name = "grade")

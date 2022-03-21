@@ -32,10 +32,10 @@ class SummonerService(
     }
 
     @Transactional
-    fun postRefreshSummonerInfo(summonerName: String): BaseDTO<Nothing?> {
+    fun postRefreshSummonerInfo(summonerName: String, name: String, grade: Int, klass: Int, number: Int): BaseDTO<Nothing?> {
         val summonerResponse = getSummonerInfoFromRiotApi(summonerName)
         val rankList = getRankBySummonerIdFromRiotApi(summonerResponse.id)
-        summonerRepository.save(summonerResponse.toVO())
+        summonerRepository.save(summonerResponse.toVO(name, grade, klass, number))
         rankRepository.deleteBySummonerName(summonerName)
         rankRepository.saveAll(rankList.map { it.toVO() })
         return BaseDTO(HttpStatus.OK.value(), "성공", null)
