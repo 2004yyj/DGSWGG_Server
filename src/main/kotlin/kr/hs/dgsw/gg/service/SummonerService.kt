@@ -36,7 +36,7 @@ class SummonerService(
         val summonerResponse = getSummonerInfoFromRiotApi(summonerName)
         val rankList = getRankBySummonerIdFromRiotApi(summonerResponse.id)
         summonerRepository.save(summonerResponse.toVO(name, grade, klass, number))
-        rankRepository.deleteBySummonerName(summonerName)
+        rankRepository.deleteBySummonerId(summonerResponse.id)
         rankRepository.saveAll(rankList.map { it.toVO() })
         return BaseDTO(HttpStatus.OK.value(), "성공", null)
     }
