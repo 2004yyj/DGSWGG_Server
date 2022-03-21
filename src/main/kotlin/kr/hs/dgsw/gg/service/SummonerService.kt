@@ -21,7 +21,7 @@ class SummonerService(
     private val rankRepository: RankRepository
 ) {
     fun getSummonerByName(summonerName: String): BaseDTO<SummonerDTO> {
-        val summonerDTO = summonerRepository.getSummonerByName(summonerName).orElseThrow {
+        val summonerDTO = summonerRepository.getSummonerBySummonerName(summonerName).orElseThrow {
             throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "404 NOT FOUND"
