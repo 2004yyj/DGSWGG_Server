@@ -9,7 +9,7 @@ class MatchUserVO {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     var id: Int = 0
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.DETACH])
     @JoinColumn(name = "match_id", referencedColumnName = "id")
     var matchVO: MatchVO = MatchVO()
     @Column(name = "summoner_id")
