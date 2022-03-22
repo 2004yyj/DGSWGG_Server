@@ -1,28 +1,29 @@
 package kr.hs.dgsw.gg.data.riot_response
 
-import kr.hs.dgsw.gg.data.dto.MatchDTO
+import kr.hs.dgsw.gg.data.dto.*
+import kr.hs.dgsw.gg.data.dto.match.*
+import kr.hs.dgsw.gg.data.enumData.GameMode
+import kr.hs.dgsw.gg.data.enumData.QueueType
+import kr.hs.dgsw.gg.data.enumData.Spells
+import kr.hs.dgsw.gg.data.riot_response.match.InfoResponse
+import kr.hs.dgsw.gg.data.riot_response.match.ParticipantsResponse
 
-class MatchResponse(private val info: Info) {
+class MatchResponse(private val info: InfoResponse) {
 
-    fun toDTO(): MatchDTO {
+    fun toDetailDTO(summonerId: String): MatchDetailDTO {
 
         val teams = info.teams.map { team ->
-            MatchDTO.TeamStats(
-                team.win,
-                team.teamId,
-                team.objectives.baron.kills,
-                team.objectives.champion.kills,
-                team.objectives.dragon.kills,
-                team.objectives.tower.kills,
-                team.objectives.inhibitor.kills,
-                team.objectives.riftHerald.kills,
-                team.bans.map { ban ->
-                    Ban(ban.championId)
-                }
-            )
+            team.toDTO()
         }
 
+        var win = false
+
         val participants = info.participants.map {
+
+            if(it.summonerId == summonerId) {
+                win = it.win
+            }
+
             val item = ArrayList<Int>()
             item.add(it.item0)
             item.add(it.item1)
@@ -32,18 +33,21 @@ class MatchResponse(private val info: Info) {
             item.add(it.item5)
             item.add(it.item6)
 
-            MatchDTO.Participants(
+            val summonerSpells = arrayListOf(
+                Spells.valueOf(it.summoner1Id).name,
+                Spells.valueOf(it.summoner2Id).name
+            )
+
+            ParticipantsDTO(
                 it.teamId,
                 it.kills,
                 it.deaths,
                 it.assists,
-                it.challenges.kda,
-                it.challenges.wardsPlaced,
+                it.challenges?.kda?:0.0,
+                it.challenges?.wardsPlaced?:0,
                 it.goldEarned,
-                it.puuid,
                 it.summonerName,
-                it.summoner1Id,
-                it.summoner2Id,
+                summonerSpells,
                 it.championName,
                 it.championId,
                 it.doubleKills,
@@ -51,117 +55,84 @@ class MatchResponse(private val info: Info) {
                 it.quadraKills,
                 it.pentaKills,
                 item,
-                it.perks,
-                when(it.role) {
-                    "CARRY" -> "BOTTOM"
-                    "SUPPORT" -> "SUPPORT"
-                    else -> it.lane
-                },
+                it.perks.toDTO(),
+                getLane(it),
                 it.totalDamageDealtToChampions,
                 it.totalDamageTaken,
                 it.neutralMinionsKilled,
                 it.totalMinionsKilled,
-                it.championTransform
+                it.championTransform,
             )
         }
 
-        return MatchDTO(
+        return MatchDetailDTO(
             info.gameDuration,
-            info.gameEndTimeStamp,
-            info.mapId,
-            info.queueId,
+            info.gameEndTimestamp,
+            getGameMode(),
             teams,
-            participants
+            participants,
+            win
         )
     }
 
-    class Info(
-        val gameDuration: Long, // 게임시간
-        val gameEndTimeStamp: Long, // 끝난시간
-        val mapId: Int,
-        val queueId: Int,
-        val teams: List<TeamStats>,
-        val participants: List<Participants>
-    )
+    fun toListDTO(summonerId: String, matchId: String): MatchListDTO {
+        val participantMapping = info.participants.filter { it.summonerId == summonerId }
 
-    class TeamStats(
-        val win: Boolean,
-        val teamId: Int,
-        val bans: List<Ban>,
-        val objectives: Objectives
-    )
+        val me = participantMapping[0]
 
-    class Ban(val championId: Int)
+        val item = ArrayList<Int>()
+        item.add(me.item0)
+        item.add(me.item1)
+        item.add(me.item2)
+        item.add(me.item3)
+        item.add(me.item4)
+        item.add(me.item5)
+        item.add(me.item6)
 
-    class Objectives(
-        val baron: Objective,
-        val champion: Objective,
-        val dragon: Objective,
-        val inhibitor: Objective,
-        val riftHerald: Objective,
-        val tower: Objective
-    )
+        val summonerSpells = arrayListOf(
+            Spells.valueOf(me.summoner1Id).name,
+            Spells.valueOf(me.summoner2Id).name
+        )
 
-    class Objective(
-        val first: Boolean,
-        val kills: Int
-    )
+        return MatchListDTO(
+            matchId,
+            info.gameDuration,
+            info.gameEndTimestamp,
+            getGameMode(),
+            me.win,
+            me.challenges?.kda?:0.0,
+            me.kills,
+            me.deaths,
+            me.assists,
+            item,
+            summonerSpells,
+            me.perks.toDTO(),
+            me.championName,
+            me.doubleKills,
+            me.tripleKills,
+            me.quadraKills,
+            me.pentaKills,
+            me.championTransform
+        )
+    }
 
-    class Participants(
-        val teamId: Int,
-        val kills: Int,
-        val deaths: Int,
-        val goldEarned: Int,
-        val assists: Int,
-        val puuid: String,
-        val summonerName: String,
-        val summoner1Id: Int, // 스펠1
-        val summoner2Id: Int, // 스펠2
-        val championName: String,
-        val championId: Int,
-        val doubleKills: Int,
-        val tripleKills: Int,
-        val quadraKills: Int,
-        val pentaKills: Int,
-        val challenges: Challenge,
-        val item0: Int,
-        val item1: Int,
-        val item2: Int,
-        val item3: Int,
-        val item4: Int,
-        val item5: Int,
-        val item6: Int, // 시야관련 아이템
-        val perks: Perks,
-        val lane: String,
-        val role: String,
-        val totalDamageDealtToChampions: Int, // 가한피해량
-        val totalDamageTaken: Int, // 받은피해량
-        val neutralMinionsKilled: Int,
-        val totalMinionsKilled: Int,
-        val championTransform: Int // 케인의 형태를 위한 값임. (기본값 - 0, 그암 - 1, 다르킨 - 2)
-    )
+    private fun getGameMode(): String {
+        return if (info.gameMode == GameMode.CLASSIC.name) {
+            QueueType.valueOf(info.queueId).value
+        } else {
+            GameMode.valueOf(info.gameMode).value
+        }
+    }
 
-    class Challenge(
-        val kda: Double, // kda
-        val wardsPlaced: Int,
-    )
-
-    class Perks(
-        val statPerks: StatPerks, // 적응형 능력치
-        val styles: List<Style> // 룬
-    )
-
-    class StatPerks(
-        val defense: Int,
-        val flex: Int,
-        val offense: Int
-    )
-
-    class Style(
-        val description: String,
-        val selections: List<Selection>,
-        val style: Int
-    )
-
-    class Selection(val perk: Int)
+    private fun getLane(participants: ParticipantsResponse): String {
+        return if (info.gameMode == GameMode.CLASSIC.name) {
+            when(participants.role) {
+                "CARRY" -> "BOTTOM"
+                "SUPPORT" -> "SUPPORT"
+                else -> participants.lane
+            }
+        } else {
+            "NOTHING"
+        }
+    }
 }

@@ -1,8 +1,8 @@
 package kr.hs.dgsw.gg.controller
 
 import kr.hs.dgsw.gg.data.base.BaseDTO
-import kr.hs.dgsw.gg.data.dto.MatchDTO
-import kr.hs.dgsw.gg.repository.MatchRepository
+import kr.hs.dgsw.gg.data.dto.MatchDetailDTO
+import kr.hs.dgsw.gg.data.dto.MatchListDTO
 import kr.hs.dgsw.gg.service.MatchService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -21,7 +21,7 @@ class MatchController(
     fun getAllBySummonerId(
         @RequestParam("summonerId") summonerId: String,
         @PageableDefault() pageable: Pageable
-    ): ResponseEntity<BaseDTO<List<MatchDTO>>> {
+    ): ResponseEntity<BaseDTO<List<MatchListDTO>>> {
         val matchList = matchService.getAllBySummonerId(summonerId, pageable)
         return ResponseEntity(matchList, HttpStatus.OK)
     }
