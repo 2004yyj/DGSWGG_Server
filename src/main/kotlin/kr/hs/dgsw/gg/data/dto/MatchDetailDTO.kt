@@ -8,7 +8,7 @@ class MatchDetailDTO(
     val gameEndTimeStamp: Long,
     val gameMode: String,
     val teams: List<TeamStatsDTO>,
-    val participants: List<ParticipantsDTO>,
+    var participants: List<ParticipantsDTO>,
     val win: Boolean
 ) {
 }

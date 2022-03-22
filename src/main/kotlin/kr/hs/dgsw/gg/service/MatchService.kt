@@ -5,10 +5,14 @@ import kr.hs.dgsw.gg.api.objects.RetrofitObject.asiaRiotApi
 import kr.hs.dgsw.gg.data.base.BaseDTO
 import kr.hs.dgsw.gg.data.dto.MatchDetailDTO
 import kr.hs.dgsw.gg.data.dto.MatchListDTO
+import kr.hs.dgsw.gg.data.dto.match.ParticipantsDTO
+import kr.hs.dgsw.gg.data.dto.match.PerksDTO
 import kr.hs.dgsw.gg.data.vo.MatchUserVO
 import kr.hs.dgsw.gg.data.vo.MatchVO
+import kr.hs.dgsw.gg.data.vo.RuneVO
 import kr.hs.dgsw.gg.repository.MatchRepository
 import kr.hs.dgsw.gg.repository.MatchUserRepository
+import kr.hs.dgsw.gg.repository.RuneRepository
 import kr.hs.dgsw.gg.repository.SummonerRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -21,7 +25,8 @@ import javax.transaction.Transactional
 class MatchService(
     private val matchRepository: MatchRepository,
     private val matchUserRepository: MatchUserRepository,
-    private val summonerRepository: SummonerRepository
+    private val summonerRepository: SummonerRepository,
+    private val runeRepository: RuneRepository
 ) {
     fun getAllBySummonerId(summonerId: String, pageable: Pageable): BaseDTO<List<MatchListDTO>> {
         val matches = matchUserRepository.findAllBySummonerId(summonerId, pageable).map {
@@ -69,7 +74,7 @@ class MatchService(
         return runBlocking {
             try {
                 val dto = asiaRiotApi.getMatchByMatchId(matchId).toListDTO(summonerId, matchId)
-                println(dto.gameEndTimeStamp)
+                dto.perks = setRunePath(dto.perks)
                 dto
             } catch (e: HttpException) {
                 throw ResponseStatusException(
@@ -84,7 +89,10 @@ class MatchService(
         return runBlocking {
             try {
                 val dto = asiaRiotApi.getMatchByMatchId(matchId).toDetailDTO(summonerId)
-                println(dto.gameEndTimeStamp)
+                dto.participants = dto.participants.map {
+                    it.perks = setRunePath(it.perks)
+                    it
+                }
                 dto
             } catch (e: HttpException) {
                 throw ResponseStatusException(
@@ -105,6 +113,29 @@ class MatchService(
                     e.message()
                 )
             }
+        }
+    }
+
+    private fun setRunePath(dto: PerksDTO): PerksDTO {
+        dto.styles = dto.styles.map { styleDTO ->
+            styleDTO.selections.forEach {
+                it.iconPath = getRune(it.perk)
+            }
+            styleDTO.stylePath = getRune(styleDTO.style)
+            styleDTO
+        }
+        dto.statPerks = dto.statPerks.apply {
+            iconPath.addAll(listOf(getRune(this.offense), getRune(this.flex), getRune(this.defense)))
+        }
+        return dto
+    }
+
+    private fun getRune(runeId: Int): String {
+        val runeOpt = runeRepository.findById(runeId)
+        return if (runeOpt.isPresent) {
+            runeOpt.get().iconPath
+        } else {
+            ""
         }
     }
 }
