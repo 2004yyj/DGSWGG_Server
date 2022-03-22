@@ -1,7 +1,5 @@
 package kr.hs.dgsw.gg.data.riot_response
 
-import kr.hs.dgsw.gg.data.dto.MatchDTO
-import kr.hs.dgsw.gg.data.dto.SummonerDTO
 import kr.hs.dgsw.gg.data.vo.SummonerVO
 
 class SummonerResponse(
