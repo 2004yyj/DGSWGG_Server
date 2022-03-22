@@ -5,11 +5,9 @@ import kr.hs.dgsw.gg.api.objects.RetrofitObject.asiaRiotApi
 import kr.hs.dgsw.gg.data.base.BaseDTO
 import kr.hs.dgsw.gg.data.dto.MatchDetailDTO
 import kr.hs.dgsw.gg.data.dto.MatchListDTO
-import kr.hs.dgsw.gg.data.dto.match.ParticipantsDTO
 import kr.hs.dgsw.gg.data.dto.match.PerksDTO
 import kr.hs.dgsw.gg.data.vo.MatchUserVO
 import kr.hs.dgsw.gg.data.vo.MatchVO
-import kr.hs.dgsw.gg.data.vo.RuneVO
 import kr.hs.dgsw.gg.repository.MatchRepository
 import kr.hs.dgsw.gg.repository.MatchUserRepository
 import kr.hs.dgsw.gg.repository.RuneRepository
@@ -36,6 +34,11 @@ class MatchService(
         return BaseDTO(HttpStatus.OK.value(), "성공", matches)
     }
 
+    fun getMatchDetailByMatchId(matchId: String, summonerId: String): BaseDTO<MatchDetailDTO> {
+        val match = getDetailMatchFromRiotApi(summonerId, matchId)
+        return BaseDTO(HttpStatus.OK.value(), "성공", match)
+    }
+
     @Transactional
     fun postMatchHistoryBySummonerId(summonerId: String): BaseDTO<Nothing?> {
         val summonerOpt = summonerRepository.getSummonerById(summonerId)
@@ -47,7 +50,7 @@ class MatchService(
             )
         }
 
-        val matchResponse = getMatchIdsFromRiotApi(summonerVO.playerUUID)
+        val matchResponse = getMatchIdListFromRiotApi(summonerVO.playerUUID)
 
         val matchVOList = matchResponse.map { matchId ->
             val matchVO = MatchVO()
@@ -103,7 +106,7 @@ class MatchService(
         }
     }
 
-    fun getMatchIdsFromRiotApi(playerUUID: String): List<String> {
+    fun getMatchIdListFromRiotApi(playerUUID: String): List<String> {
         return runBlocking {
             try {
                 asiaRiotApi.getMatchesByPlayerUUID(playerUUID, 0, 50)
