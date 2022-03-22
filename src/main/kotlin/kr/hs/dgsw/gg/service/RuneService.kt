@@ -17,6 +17,10 @@ class RuneService(
                 runeVO.addAll(assetsApi.getRunes().map { runeResponse ->
                     runeResponse.toVO()
                 })
+
+                runeVO.addAll(assetsApi.getRuneStyles().styles.map { runeResponse ->
+                    runeResponse.toVO()
+                })
             }
             runeRepository.saveAllAndFlush(runeVO)
         }
