@@ -9,6 +9,6 @@ class RuneCommandLineRunner(
     private val runeService: RuneService
 ): CommandLineRunner {
     override fun run(vararg args: String?) {
-        runeService.getRune()
+        runeService.postRune()
     }
 }

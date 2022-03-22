@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class RuneService(
     private val runeRepository: RuneRepository
 ) {
-    fun getRune() {
+    fun postRune() {
         if (runeRepository.findAll().size == 0) {
             val runeVO = ArrayList<RuneVO>()
             runBlocking {
