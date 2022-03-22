@@ -14,14 +14,9 @@ class RuneService(
         if (runeRepository.findAll().size == 0) {
             val runeVO = ArrayList<RuneVO>()
             runBlocking {
-                assetsApi.getRunes().forEach { runeResponse ->
-                    runeVO.add(runeResponse.toVO())
-                    runeResponse.slots.forEach { slotResponse ->
-                        runeVO.addAll(slotResponse.runes.map { keyStoneResponse ->
-                            keyStoneResponse.toVO()
-                        })
-                    }
-                }
+                runeVO.addAll(assetsApi.getRunes().map { runeResponse ->
+                    runeResponse.toVO()
+                })
             }
             runeRepository.saveAllAndFlush(runeVO)
         }

@@ -5,6 +5,6 @@ import kr.hs.dgsw.gg.data.riot_response.RuneResponse
 import retrofit2.http.GET
 
 interface AssetsApi {
-    @GET("/cdn/${Contracts.DataDragon_VERSION}/data/ko_KR/runesReforged.json")
+    @GET("/latest/plugins/rcp-be-lol-game-data/global/ko_kr/v1/perks.json")
     suspend fun getRunes(): List<RuneResponse>
 }
