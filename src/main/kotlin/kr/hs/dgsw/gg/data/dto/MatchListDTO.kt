@@ -14,7 +14,7 @@ class MatchListDTO(
     val assists: Int,
     val item: List<Int>,
     val summonerSpells: List<String>,
-    val perks: PerksDTO,
+    var perks: PerksDTO,
     val championName: String,
     val doubleKills: Int,
     val tripleKills: Int,

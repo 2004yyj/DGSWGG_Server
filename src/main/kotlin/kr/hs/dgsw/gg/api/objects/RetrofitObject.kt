@@ -1,9 +1,11 @@
 package kr.hs.dgsw.gg.api.objects
 
 import kr.hs.dgsw.gg.api.AsiaRiotApi
+import kr.hs.dgsw.gg.api.AssetsApi
 import kr.hs.dgsw.gg.api.KrRiotApi
 import kr.hs.dgsw.gg.api.apikey.ApiKeyInterceptor
 import kr.hs.dgsw.gg.api.objects.Contracts.ASIA_BASE_URL
+import kr.hs.dgsw.gg.api.objects.Contracts.ASSETS_BASE_URL
 import kr.hs.dgsw.gg.api.objects.Contracts.KR_BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -26,6 +28,13 @@ object RetrofitObject {
         .client(okHttpClient)
         .build()
 
+    val assetsRetrofit = Retrofit.Builder()
+        .baseUrl(ASSETS_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build()
+
     val krRiotApi = krRetrofit.create(KrRiotApi::class.java)
     val asiaRiotApi = asiaRetrofit.create(AsiaRiotApi::class.java)
+    val assetsApi = assetsRetrofit.create(AssetsApi::class.java)
 }
