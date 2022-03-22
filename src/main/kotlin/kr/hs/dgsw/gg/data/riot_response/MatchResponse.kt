@@ -6,19 +6,14 @@ import kr.hs.dgsw.gg.data.enumData.GameMode
 import kr.hs.dgsw.gg.data.enumData.QueueType
 import kr.hs.dgsw.gg.data.enumData.Spells
 import kr.hs.dgsw.gg.data.riot_response.match.InfoResponse
+import kr.hs.dgsw.gg.data.riot_response.match.ParticipantsResponse
 
 class MatchResponse(private val info: InfoResponse) {
 
-    fun toDTO(summonerId: String): MatchDetailDTO {
+    fun toDetailDTO(summonerId: String): MatchDetailDTO {
 
         val teams = info.teams.map { team ->
             team.toDTO()
-        }
-
-        val gameMode = if (info.gameMode == GameMode.CLASSIC.name) {
-            QueueType.valueOf(info.queueId).value
-        } else {
-            GameMode.valueOf(info.gameMode).value
         }
 
         var win = false
@@ -43,16 +38,6 @@ class MatchResponse(private val info: InfoResponse) {
                 Spells.valueOf(it.summoner2Id).name
             )
 
-            val lane = if (info.gameMode == GameMode.CLASSIC.name) {
-                when(it.role) {
-                    "CARRY" -> "BOTTOM"
-                    "SUPPORT" -> "SUPPORT"
-                    else -> it.lane
-                }
-            } else {
-                "NOTHING"
-            }
-
             ParticipantsDTO(
                 it.teamId,
                 it.kills,
@@ -71,7 +56,7 @@ class MatchResponse(private val info: InfoResponse) {
                 it.pentaKills,
                 item,
                 it.perks.toDTO(),
-                lane,
+                getLane(it),
                 it.totalDamageDealtToChampions,
                 it.totalDamageTaken,
                 it.neutralMinionsKilled,
@@ -83,10 +68,71 @@ class MatchResponse(private val info: InfoResponse) {
         return MatchDetailDTO(
             info.gameDuration,
             info.gameEndTimestamp,
-            gameMode,
+            getGameMode(),
             teams,
             participants,
             win
         )
+    }
+
+    fun toListDTO(summonerId: String, matchId: String): MatchListDTO {
+        val participantMapping = info.participants.filter { it.summonerId == summonerId }
+
+        val me = participantMapping[0]
+
+        val item = ArrayList<Int>()
+        item.add(me.item0)
+        item.add(me.item1)
+        item.add(me.item2)
+        item.add(me.item3)
+        item.add(me.item4)
+        item.add(me.item5)
+        item.add(me.item6)
+
+        val summonerSpells = arrayListOf(
+            Spells.valueOf(me.summoner1Id).name,
+            Spells.valueOf(me.summoner2Id).name
+        )
+
+        return MatchListDTO(
+            matchId,
+            info.gameDuration,
+            info.gameEndTimestamp,
+            getGameMode(),
+            me.win,
+            me.challenges?.kda?:0.0,
+            me.kills,
+            me.deaths,
+            me.assists,
+            item,
+            summonerSpells,
+            me.perks.toDTO(),
+            me.championName,
+            me.doubleKills,
+            me.tripleKills,
+            me.quadraKills,
+            me.pentaKills,
+            me.championTransform
+        )
+    }
+
+    private fun getGameMode(): String {
+        return if (info.gameMode == GameMode.CLASSIC.name) {
+            QueueType.valueOf(info.queueId).value
+        } else {
+            GameMode.valueOf(info.gameMode).value
+        }
+    }
+
+    private fun getLane(participants: ParticipantsResponse): String {
+        return if (info.gameMode == GameMode.CLASSIC.name) {
+            when(participants.role) {
+                "CARRY" -> "BOTTOM"
+                "SUPPORT" -> "SUPPORT"
+                else -> participants.lane
+            }
+        } else {
+            "NOTHING"
+        }
     }
 }
