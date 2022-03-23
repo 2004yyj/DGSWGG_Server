@@ -5,16 +5,17 @@ import kr.hs.dgsw.gg.data.enumData.RankType
 import kr.hs.dgsw.gg.data.enumData.Tier
 import kr.hs.dgsw.gg.data.riot_response.rank.MiniSeriesResponse
 import kr.hs.dgsw.gg.data.vo.RankVO
+import kr.hs.dgsw.gg.data.vo.SummonerVO
 
 class RankResponse(
-    private val tier: String,
-    private val rank: String,
-    private val queueType: String,
-    private val leaguePoints: Int,
-    private val wins: Int,
-    private val losses: Int,
+    private val tier: String = "UNRANKED",
+    private val rank: String = "0",
+    val queueType: String,
+    private val leaguePoints: Int = 0,
+    private val wins: Int = 0,
+    private val losses: Int = 0,
     private val summonerId: String,
-    private val miniSeries: MiniSeriesResponse?
+    private val miniSeries: MiniSeriesResponse? = null
 ) {
     fun toVO(): RankVO {
         return RankVO().apply {

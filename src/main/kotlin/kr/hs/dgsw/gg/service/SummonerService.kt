@@ -34,9 +34,20 @@ class SummonerService(
     @Transactional
     fun postRefreshSummonerInfo(summonerName: String, name: String, grade: Int, klass: Int, number: Int): BaseDTO<Nothing?> {
         val summonerResponse = getSummonerInfoFromRiotApi(summonerName)
-        val rankList = getRankBySummonerIdFromRiotApi(summonerResponse.id)
         summonerRepository.save(summonerResponse.toVO(name, grade, klass, number))
+
+        val rankList = ArrayList<RankResponse>()
+        rankList.addAll(getRankBySummonerIdFromRiotApi(summonerResponse.id))
         rankRepository.deleteBySummonerId(summonerResponse.id)
+        if (rankList.isEmpty()) {
+            rankList.add(RankResponse(queueType = "SOLO", summonerId = summonerResponse.id))
+            rankList.add(RankResponse(queueType = "FLEX", summonerId = summonerResponse.id))
+        } else if(rankList.size == 1) {
+            rankList.add(RankResponse(
+                queueType = if (rankList.none { it.queueType == "SOLO" }) "SOLO" else "FLEX",
+                summonerId = summonerResponse.id
+            ))
+        }
         rankRepository.saveAll(rankList.map { it.toVO() })
         return BaseDTO(HttpStatus.OK.value(), "성공", null)
     }
