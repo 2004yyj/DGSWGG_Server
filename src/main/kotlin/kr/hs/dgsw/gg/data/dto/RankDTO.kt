@@ -1,7 +1,5 @@
 package kr.hs.dgsw.gg.data.dto
 
-import javax.persistence.Column
-
 class RankDTO(
     var id: Int,
     var summonerId: String,
@@ -10,5 +8,6 @@ class RankDTO(
     var queueType: String,
     var leaguePoints: Int,
     var wins: Int,
-    var losses: Int
+    var losses: Int,
+    var miniSeries: String?
 )

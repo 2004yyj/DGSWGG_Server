@@ -24,6 +24,8 @@ class RankVO {
     var wins: Int = 0
     @Column(name = "losses")
     var losses: Int = 0
+    @Column(name = "miniSeries")
+    var miniSeries: String? = ""
 }
 
 fun RankVO.toDTO(): RankDTO {
@@ -35,6 +37,7 @@ fun RankVO.toDTO(): RankDTO {
         queueType,
         leaguePoints,
         wins,
-        losses
+        losses,
+        miniSeries
     )
 }
