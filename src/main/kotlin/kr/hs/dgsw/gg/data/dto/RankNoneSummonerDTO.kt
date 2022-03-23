@@ -1,8 +1,7 @@
 package kr.hs.dgsw.gg.data.dto
 
-class RankDTO(
+class RankNoneSummonerDTO(
     var id: Int,
-    var summoner: SummonerNoRankDTO?,
     var tier: String,
     var rank: String,
     var queueType: String,

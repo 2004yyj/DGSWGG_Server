@@ -14,10 +14,10 @@ class RankResponse(
     private val leaguePoints: Int = 0,
     private val wins: Int = 0,
     private val losses: Int = 0,
-    private val summonerId: String,
+    val summonerId: String,
     private val miniSeries: MiniSeriesResponse? = null
 ) {
-    fun toVO(): RankVO {
+    fun toVO(summonerVO: SummonerVO): RankVO {
         return RankVO().apply {
             tier = this@RankResponse.tier
             tierId = Tier.valueOf(this@RankResponse.tier).tierId
@@ -27,7 +27,7 @@ class RankResponse(
             leaguePoints = this@RankResponse.leaguePoints
             wins = this@RankResponse.wins
             losses = this@RankResponse.losses
-            summonerId = this@RankResponse.summonerId
+            this.summonerVO = summonerVO
             miniSeries = this@RankResponse.miniSeries?.toString()
         }
     }

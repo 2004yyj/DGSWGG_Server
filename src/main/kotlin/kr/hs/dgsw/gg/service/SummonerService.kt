@@ -38,7 +38,6 @@ class SummonerService(
 
         val rankList = ArrayList<RankResponse>()
         rankList.addAll(getRankBySummonerIdFromRiotApi(summonerResponse.id))
-        rankRepository.deleteBySummonerId(summonerResponse.id)
         if (rankList.isEmpty()) {
             rankList.add(RankResponse(queueType = "SOLO", summonerId = summonerResponse.id))
             rankList.add(RankResponse(queueType = "FLEX", summonerId = summonerResponse.id))
@@ -48,7 +47,15 @@ class SummonerService(
                 summonerId = summonerResponse.id
             ))
         }
-        rankRepository.saveAll(rankList.map { it.toVO() })
+
+        val summonerVO = summonerRepository.getSummonerBySummonerName(summonerName).orElseThrow {
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "404 NOT FOUND",
+            )
+        }
+        rankRepository.deleteBySummonerVO(summonerVO)
+        rankRepository.saveAll(rankList.map { it.toVO(summonerVO) })
         return BaseDTO(HttpStatus.OK.value(), "성공", null)
     }
 

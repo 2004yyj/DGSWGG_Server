@@ -2,12 +2,11 @@ package kr.hs.dgsw.gg.data.vo
 
 import kr.hs.dgsw.gg.data.base.BaseTimeVO
 import kr.hs.dgsw.gg.data.dto.SummonerDTO
+import kr.hs.dgsw.gg.data.dto.SummonerNoRankDTO
 import kr.hs.dgsw.gg.util.time
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
-import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -33,8 +32,7 @@ class SummonerVO: BaseTimeVO() {
     var profileIconId: Int = 0
     @Column(name = "player_uuid")
     var playerUUID: String = ""
-    @OneToMany
-    @JoinColumn(name = "summoner_id")
+    @OneToMany(mappedBy = "summonerVO")
     var rankList: List<RankVO> = ArrayList()
 }
 
@@ -50,6 +48,21 @@ fun SummonerVO.toDTO(): SummonerDTO {
         profileIconId,
         createdAt.time,
         updatedAt.time,
-        rankList.map { it.toDTO() }
+        rankList.map { it.toNoneSummonerDTO() }
+    )
+}
+
+fun SummonerVO.toNoRankDTO(): SummonerNoRankDTO {
+    return SummonerNoRankDTO(
+        id,
+        playerUUID,
+        name,
+        grade,
+        klass,
+        number,
+        summonerLevel,
+        profileIconId,
+        createdAt.time,
+        updatedAt.time
     )
 }

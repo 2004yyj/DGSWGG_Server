@@ -1,6 +1,6 @@
 package kr.hs.dgsw.gg.data.dto
 
-class SummonerDTO(
+class SummonerNoRankDTO(
     val id: String,
     val playerUUID: String,
     val name: String,
@@ -11,5 +11,4 @@ class SummonerDTO(
     val profileIconId: Int,
     val createdAt: Long?,
     val updatedAt: Long?,
-    val rankData: List<RankNoneSummonerDTO> = ArrayList()
 )

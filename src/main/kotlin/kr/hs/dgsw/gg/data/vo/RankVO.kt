@@ -1,6 +1,7 @@
 package kr.hs.dgsw.gg.data.vo
 
 import kr.hs.dgsw.gg.data.dto.RankDTO
+import kr.hs.dgsw.gg.data.dto.RankNoneSummonerDTO
 import javax.persistence.*
 
 @Table
@@ -10,8 +11,6 @@ class RankVO {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int = 0
-    @Column(name = "summoner_id")
-    var summonerId: String = ""
     @Column(name = "tier")
     var tier: String = ""
     @Column(name = "tier_id")
@@ -30,12 +29,29 @@ class RankVO {
     var losses: Int = 0
     @Column(name = "miniSeries")
     var miniSeries: String? = ""
+
+    @ManyToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "summoner_id")
+    var summonerVO: SummonerVO? = null
 }
 
 fun RankVO.toDTO(): RankDTO {
     return RankDTO(
         id,
-        summonerId,
+        summonerVO?.toNoRankDTO(),
+        tier,
+        rank,
+        queueType,
+        leaguePoints,
+        wins,
+        losses,
+        miniSeries
+    )
+}
+
+fun RankVO.toNoneSummonerDTO(): RankNoneSummonerDTO {
+    return RankNoneSummonerDTO(
+        id,
         tier,
         rank,
         queueType,
