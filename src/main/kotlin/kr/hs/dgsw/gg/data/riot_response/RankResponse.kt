@@ -9,7 +9,7 @@ import kr.hs.dgsw.gg.data.vo.SummonerVO
 
 class RankResponse(
     private val tier: String = "UNRANKED",
-    private val rank: String = "0",
+    private val rank: String = "UNRANKED",
     val queueType: String,
     private val leaguePoints: Int = 0,
     private val wins: Int = 0,

@@ -39,8 +39,8 @@ class SummonerService(
         val rankList = ArrayList<RankResponse>()
         rankList.addAll(getRankBySummonerIdFromRiotApi(summonerResponse.id))
         if (rankList.isEmpty()) {
-            rankList.add(RankResponse(queueType = "SOLO", summonerId = summonerResponse.id))
-            rankList.add(RankResponse(queueType = "FLEX", summonerId = summonerResponse.id))
+            rankList.add(RankResponse(queueType = "RANKED_SOLO_5x5", summonerId = summonerResponse.id))
+            rankList.add(RankResponse(queueType = "RANKED_FLEX_SR", summonerId = summonerResponse.id))
         } else if(rankList.size == 1) {
             rankList.add(RankResponse(
                 queueType = if (rankList.none { it.queueType == "SOLO" }) "SOLO" else "FLEX",
