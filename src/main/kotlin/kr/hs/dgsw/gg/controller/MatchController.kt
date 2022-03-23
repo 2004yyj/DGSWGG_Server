@@ -1,5 +1,6 @@
 package kr.hs.dgsw.gg.controller
 
+import io.swagger.annotations.Api
 import kr.hs.dgsw.gg.data.base.BaseDTO
 import kr.hs.dgsw.gg.data.dto.MatchDetailDTO
 import kr.hs.dgsw.gg.data.dto.MatchListDTO
@@ -17,9 +18,10 @@ class MatchController(
     @GetMapping("/match")
     fun getAllBySummonerId(
         @RequestParam("summonerId") summonerId: String,
-        @PageableDefault() pageable: Pageable
+        @RequestParam("page", defaultValue = "0") page: Int,
+        @RequestParam("size", defaultValue = "10") size: Int
     ): ResponseEntity<BaseDTO<List<MatchListDTO>>> {
-        val matchList = matchService.getAllBySummonerId(summonerId, pageable)
+        val matchList = matchService.getAllBySummonerId(summonerId, page, size)
         return ResponseEntity(matchList, HttpStatus.OK)
     }
 

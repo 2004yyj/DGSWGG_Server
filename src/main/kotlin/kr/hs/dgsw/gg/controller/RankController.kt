@@ -1,5 +1,6 @@
 package kr.hs.dgsw.gg.controller
 
+import io.swagger.annotations.Api
 import kr.hs.dgsw.gg.data.base.BaseDTO
 import kr.hs.dgsw.gg.data.dto.RankDTO
 import kr.hs.dgsw.gg.service.RankService
