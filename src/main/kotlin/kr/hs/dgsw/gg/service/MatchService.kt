@@ -12,6 +12,7 @@ import kr.hs.dgsw.gg.repository.MatchRepository
 import kr.hs.dgsw.gg.repository.MatchUserRepository
 import kr.hs.dgsw.gg.repository.RuneRepository
 import kr.hs.dgsw.gg.repository.SummonerRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -26,7 +27,8 @@ class MatchService(
     private val summonerRepository: SummonerRepository,
     private val runeRepository: RuneRepository
 ) {
-    fun getAllBySummonerId(summonerId: String, pageable: Pageable): BaseDTO<List<MatchListDTO>> {
+    fun getAllBySummonerId(summonerId: String, page: Int, size: Int): BaseDTO<List<MatchListDTO>> {
+        val pageable = PageRequest.of(page, size)
         val matches = matchUserRepository.findAllBySummonerId(summonerId, pageable).map {
             getListMatchFromRiotApi(summonerId, it.matchVO.id)
         }
