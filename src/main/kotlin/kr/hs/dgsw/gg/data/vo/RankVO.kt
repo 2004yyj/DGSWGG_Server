@@ -14,8 +14,12 @@ class RankVO {
     var summonerId: String = ""
     @Column(name = "tier")
     var tier: String = ""
+    @Column(name = "tier_id")
+    var tierId: Int = 0
     @Column(name = "ranking")
     var rank: String = ""
+    @Column(name = "ranking_id")
+    var rankId: Int = 0
     @Column(name = "queue_type")
     var queueType: String = ""
     @Column(name = "league_points")
