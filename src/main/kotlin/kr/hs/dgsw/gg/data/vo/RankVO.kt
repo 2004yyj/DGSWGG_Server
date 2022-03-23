@@ -52,7 +52,6 @@ fun RankVO.toDTO(): RankDTO {
 }
 
 fun RankVO.toNoneSummonerDTO(): RankNoneSummonerDTO {
-    println(miniSeries)
     return RankNoneSummonerDTO(
         id,
         tier,
