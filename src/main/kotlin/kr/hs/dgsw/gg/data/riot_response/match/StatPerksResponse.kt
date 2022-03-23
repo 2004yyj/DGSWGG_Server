@@ -1,5 +1,6 @@
 package kr.hs.dgsw.gg.data.riot_response.match
 
+import kr.hs.dgsw.gg.data.dto.match.StatPerkDTO
 import kr.hs.dgsw.gg.data.dto.match.StatPerksDTO
 
 class StatPerksResponse(
@@ -9,7 +10,9 @@ class StatPerksResponse(
 ) {
     fun toDTO(): StatPerksDTO {
         return StatPerksDTO(
-            defense, flex, offense
+            StatPerkDTO("defense", defense),
+            StatPerkDTO("flex", flex),
+            StatPerkDTO("offense", offense)
         )
     }
 }

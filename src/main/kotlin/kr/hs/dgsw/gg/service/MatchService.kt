@@ -130,7 +130,9 @@ class MatchService(
             styleDTO
         }
         dto.statPerks = dto.statPerks.apply {
-            iconPath.addAll(listOf(getRune(this.offense), getRune(this.flex), getRune(this.defense)))
+            offense.iconPath = getRune(this.offense.code)
+            flex.iconPath = getRune(this.flex.code)
+            defense.iconPath = getRune(this.defense.code)
         }
         return dto
     }
