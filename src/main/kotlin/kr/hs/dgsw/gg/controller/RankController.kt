@@ -15,7 +15,7 @@ class RankController(
 ) {
     @GetMapping("/rank")
     fun getAllRank(queueType: String, pageable: Pageable): ResponseEntity<BaseDTO<List<RankDTO>>> {
-        val rankList = rankService.getAllRank(queueType)
+        val rankList = rankService.getAllRank(queueType,pageable)
         return ResponseEntity(rankList, HttpStatus.OK)
     }
 }
