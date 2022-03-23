@@ -9,5 +9,5 @@ class RankDTO(
     var leaguePoints: Int,
     var wins: Int,
     var losses: Int,
-    var miniSeries: String?
+    var miniSeries: MiniSeriesDTO?
 )

@@ -4,6 +4,7 @@ class SummonerDTO(
     val id: String,
     val playerUUID: String,
     val name: String,
+    val summonerName: String,
     val grade: Int,
     val klass: Int,
     val number: Int,
