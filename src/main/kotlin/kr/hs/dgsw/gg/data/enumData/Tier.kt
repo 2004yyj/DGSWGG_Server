@@ -9,5 +9,6 @@ enum class Tier(val tierId: Int) {
     GOLD(6),
     SILVER(7),
     BRONZE(8),
-    IRON(9);
+    IRON(9),
+    UNRANKED(10)
 }

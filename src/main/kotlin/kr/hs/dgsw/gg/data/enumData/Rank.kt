@@ -5,5 +5,5 @@ enum class Rank(val rankId: Int) {
     II(2),
     III(3),
     IV(4),
-    NOTHING(0);
+    UNRANKED(0);
 }
