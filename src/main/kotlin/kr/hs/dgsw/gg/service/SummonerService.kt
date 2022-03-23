@@ -34,10 +34,28 @@ class SummonerService(
     @Transactional
     fun postRefreshSummonerInfo(summonerName: String, name: String, grade: Int, klass: Int, number: Int): BaseDTO<Nothing?> {
         val summonerResponse = getSummonerInfoFromRiotApi(summonerName)
-        val rankList = getRankBySummonerIdFromRiotApi(summonerResponse.id)
         summonerRepository.save(summonerResponse.toVO(name, grade, klass, number))
-        rankRepository.deleteBySummonerId(summonerResponse.id)
-        rankRepository.saveAll(rankList.map { it.toVO() })
+
+        val rankList = ArrayList<RankResponse>()
+        rankList.addAll(getRankBySummonerIdFromRiotApi(summonerResponse.id))
+        if (rankList.isEmpty()) {
+            rankList.add(RankResponse(queueType = "SOLO", summonerId = summonerResponse.id))
+            rankList.add(RankResponse(queueType = "FLEX", summonerId = summonerResponse.id))
+        } else if(rankList.size == 1) {
+            rankList.add(RankResponse(
+                queueType = if (rankList.none { it.queueType == "SOLO" }) "SOLO" else "FLEX",
+                summonerId = summonerResponse.id
+            ))
+        }
+
+        val summonerVO = summonerRepository.getSummonerBySummonerName(summonerName).orElseThrow {
+            throw ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "404 NOT FOUND",
+            )
+        }
+        rankRepository.deleteBySummonerVO(summonerVO)
+        rankRepository.saveAll(rankList.map { it.toVO(summonerVO) })
         return BaseDTO(HttpStatus.OK.value(), "성공", null)
     }
 
