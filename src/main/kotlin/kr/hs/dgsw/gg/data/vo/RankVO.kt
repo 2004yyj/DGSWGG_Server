@@ -1,5 +1,7 @@
 package kr.hs.dgsw.gg.data.vo
 
+import com.google.gson.Gson
+import kr.hs.dgsw.gg.data.dto.MiniSeriesDTO
 import kr.hs.dgsw.gg.data.dto.RankDTO
 import kr.hs.dgsw.gg.data.dto.RankNoneSummonerDTO
 import javax.persistence.*
@@ -45,7 +47,7 @@ fun RankVO.toDTO(): RankDTO {
         leaguePoints,
         wins,
         losses,
-        miniSeries
+        Gson().fromJson(miniSeries, MiniSeriesDTO::class.java)
     )
 }
 
@@ -58,6 +60,6 @@ fun RankVO.toNoneSummonerDTO(): RankNoneSummonerDTO {
         leaguePoints,
         wins,
         losses,
-        miniSeries
+        Gson().fromJson(miniSeries, MiniSeriesDTO::class.java)
     )
 }

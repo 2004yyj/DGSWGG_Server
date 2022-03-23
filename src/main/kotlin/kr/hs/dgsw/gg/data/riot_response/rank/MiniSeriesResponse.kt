@@ -11,7 +11,7 @@ class MiniSeriesResponse(
                 "\"target\": ${target}, " +
                 "\"wins\": ${wins}, " +
                 "\"losses\": ${losses}, " +
-                "\"progress\": ${progress}, " +
+                "\"progress\": \"${progress}\"" +
         "}"
     }
 }

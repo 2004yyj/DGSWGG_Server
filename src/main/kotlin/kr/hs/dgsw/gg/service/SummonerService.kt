@@ -43,7 +43,7 @@ class SummonerService(
             rankList.add(RankResponse(queueType = "RANKED_FLEX_SR", summonerId = summonerResponse.id))
         } else if(rankList.size == 1) {
             rankList.add(RankResponse(
-                queueType = if (rankList.none { it.queueType == "SOLO" }) "SOLO" else "FLEX",
+                queueType = if (rankList.none { it.queueType == "RANKED_SOLO_5x5" }) "RANKED_SOLO_5x5" else "RANKED_FLEX_SR",
                 summonerId = summonerResponse.id
             ))
         }
