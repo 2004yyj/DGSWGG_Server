@@ -1,6 +1,6 @@
 package kr.hs.dgsw.gg.data.dto
 
-class RankNoneSummonerDTO(
+class RankNoSummonerDTO(
     var id: Int,
     var tier: String,
     var rank: String,

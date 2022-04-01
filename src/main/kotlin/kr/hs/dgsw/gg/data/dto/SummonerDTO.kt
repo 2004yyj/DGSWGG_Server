@@ -12,5 +12,5 @@ class SummonerDTO(
     val profileIconId: Int,
     val createdAt: Long?,
     val updatedAt: Long?,
-    val rankData: List<RankNoneSummonerDTO> = ArrayList()
+    val rankData: List<RankNoSummonerDTO> = ArrayList()
 )
