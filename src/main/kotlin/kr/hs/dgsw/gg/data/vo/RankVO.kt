@@ -3,7 +3,7 @@ package kr.hs.dgsw.gg.data.vo
 import com.google.gson.Gson
 import kr.hs.dgsw.gg.data.dto.MiniSeriesDTO
 import kr.hs.dgsw.gg.data.dto.RankDTO
-import kr.hs.dgsw.gg.data.dto.RankNoneSummonerDTO
+import kr.hs.dgsw.gg.data.dto.RankNoSummonerDTO
 import javax.persistence.*
 
 @Table
@@ -51,8 +51,8 @@ fun RankVO.toDTO(): RankDTO {
     )
 }
 
-fun RankVO.toNoneSummonerDTO(): RankNoneSummonerDTO {
-    return RankNoneSummonerDTO(
+fun RankVO.toNoneSummonerDTO(): RankNoSummonerDTO {
+    return RankNoSummonerDTO(
         id,
         tier,
         rank,
