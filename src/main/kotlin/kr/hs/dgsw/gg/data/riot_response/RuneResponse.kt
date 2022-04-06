@@ -11,7 +11,7 @@ class RuneResponse(
         return RuneVO().apply {
             id = this@RuneResponse.id
             name = this@RuneResponse.name
-            iconPath = this@RuneResponse.iconPath
+            iconPath = this@RuneResponse.iconPath.replace("/lol-game-data/assets/v1/perk-images", "")
         }
     }
 }
