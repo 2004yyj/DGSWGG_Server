@@ -11,18 +11,17 @@ class RuneService(
     private val runeRepository: RuneRepository
 ) {
     fun postRune() {
-        if (runeRepository.findAll().size == 0) {
-            val runeVO = ArrayList<RuneVO>()
-            runBlocking {
-                runeVO.addAll(assetsApi.getRunes().map { runeResponse ->
-                    runeResponse.toVO()
-                })
+        val runeVO = ArrayList<RuneVO>()
+        runBlocking {
+            runeVO.addAll(assetsApi.getRunes().map { runeResponse ->
+                runeResponse.toVO()
+            })
 
-                runeVO.addAll(assetsApi.getRuneStyles().styles.map { runeResponse ->
-                    runeResponse.toVO()
-                })
-            }
-            runeRepository.saveAllAndFlush(runeVO)
+            runeVO.addAll(assetsApi.getRuneStyles().styles.map { runeResponse ->
+                runeResponse.toVO()
+            })
         }
+        runeRepository.deleteAll()
+        runeRepository.saveAllAndFlush(runeVO)
     }
 }
