@@ -120,7 +120,11 @@ class MatchResponse(private val info: InfoResponse) {
         return if (info.gameMode == GameMode.CLASSIC.name) {
             QueueType.valueOf(info.queueId).value
         } else {
-            GameMode.valueOf(info.gameMode).value
+            try {
+                GameMode.valueOf(info.gameMode).value
+            } catch (e: Exception) {
+                GameMode.NOTHING.value
+            }
         }
     }
 
