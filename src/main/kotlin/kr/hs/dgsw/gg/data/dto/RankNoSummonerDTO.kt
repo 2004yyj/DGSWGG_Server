@@ -3,7 +3,7 @@ package kr.hs.dgsw.gg.data.dto
 class RankNoSummonerDTO(
     var id: Int,
     var tier: String,
-    var rank: String,
+    var rank: Int,
     var queueType: String,
     var leaguePoints: Int,
     var wins: Int,

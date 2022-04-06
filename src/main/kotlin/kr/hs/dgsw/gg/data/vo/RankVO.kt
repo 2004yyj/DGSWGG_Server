@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import kr.hs.dgsw.gg.data.dto.MiniSeriesDTO
 import kr.hs.dgsw.gg.data.dto.RankDTO
 import kr.hs.dgsw.gg.data.dto.RankNoSummonerDTO
+import kr.hs.dgsw.gg.data.enumData.Rank
+import kr.hs.dgsw.gg.data.enumData.Tier
 import javax.persistence.*
 
 @Table
@@ -41,8 +43,8 @@ fun RankVO.toDTO(): RankDTO {
     return RankDTO(
         id,
         summonerVO?.toNoRankDTO(),
-        tier,
-        rank,
+        Tier.valueOf(tier).tierStr,
+        Rank.valueOf(rank).rankId,
         queueType,
         leaguePoints,
         wins,
@@ -54,8 +56,8 @@ fun RankVO.toDTO(): RankDTO {
 fun RankVO.toNoneSummonerDTO(): RankNoSummonerDTO {
     return RankNoSummonerDTO(
         id,
-        tier,
-        rank,
+        Tier.valueOf(tier).tierStr,
+        Rank.valueOf(rank).rankId,
         queueType,
         leaguePoints,
         wins,

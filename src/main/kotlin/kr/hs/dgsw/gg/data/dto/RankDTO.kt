@@ -4,7 +4,7 @@ class RankDTO(
     var id: Int,
     var summoner: SummonerNoRankDTO?,
     var tier: String,
-    var rank: String,
+    var rank: Int,
     var queueType: String,
     var leaguePoints: Int,
     var wins: Int,
