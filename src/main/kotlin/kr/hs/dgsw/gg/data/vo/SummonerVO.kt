@@ -4,6 +4,8 @@ import kr.hs.dgsw.gg.data.base.BaseTimeVO
 import kr.hs.dgsw.gg.data.dto.SummonerDTO
 import kr.hs.dgsw.gg.data.dto.SummonerNoRankDTO
 import kr.hs.dgsw.gg.util.time
+import org.hibernate.annotations.Cascade
+import org.hibernate.annotations.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -15,6 +17,7 @@ import javax.persistence.Table
 class SummonerVO: BaseTimeVO() {
     @Id
     @Column(name = "id")
+    @Cascade(CascadeType.SAVE_UPDATE)
     var id: String = ""
     @Column(name = "summoner_name")
     var summonerName: String = ""
